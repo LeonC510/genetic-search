@@ -4,7 +4,7 @@ from chromosomes import Chromosome
 from error import error
 
 search_space = [[-3, 3], [-3, 3]]
-mutate_distribution_scale = 10000000
+mutate_distribution_scale = 0.001
 population_size = 100
 max_generations = 100
 termination_static_max_fitness_iterations = 10
@@ -59,8 +59,8 @@ for generation in range(max_generations):
         population = concat([population, new_row])
 
     # Mutate each individual. The size of the mutation is determined randomly.
-    # for chromosome in population["chromosome"]:
-    #     chromosome.mutate()
+    for chromosome in population["chromosome"]:
+        chromosome.mutate()
 
     # Sort the population by fitness. Referenced Pandas.DataFrame.Sort_values — Pandas 2.2.3 Documentation (n.d.).
     population.sort_values("fitness", ascending=False, inplace=True)
