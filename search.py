@@ -83,6 +83,8 @@ def genetic_search(population_size=100,
     return population["chromosome"].iloc[0].location
 
 
-optimum_location = genetic_search()
-print(f"Global optimum is at ({optimum_location[0]}, {optimum_location[1]}) with error of "
-      f"{error(optimum_location[0], optimum_location[1])}")
+# Protect from being run during module import. The next line is adapted from unwind (2010).
+if __name__ == "__main__":
+    optimum_location = genetic_search()
+    print(f"Global optimum is at ({optimum_location[0]}, {optimum_location[1]}) with error of "
+          f"{error(optimum_location[0], optimum_location[1])}")
