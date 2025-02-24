@@ -7,7 +7,7 @@ from error import error
 def genetic_search(population_size=100,
                    max_generations=200,
                    survival_rate=0.3,
-                   mutate_distribution_scale=0.0015,
+                   mutate_distribution_scale=0.0013,
                    termination_static_max_fitness_iterations=10):
     search_space = [[-3, 3], [-3, 3]]
     current_running_max_fitness = 0

@@ -26,7 +26,7 @@ survival_rate_search_range = [0.0, 0.5]
 mutate_distribution_scale_search_range = [0.0000000000001, 0.01]
 param_search_ranges = [survival_rate_search_range, mutate_distribution_scale_search_range]
 survival_rate_step_size = 0.05
-mutate_distribution_scale_step_size = 0.0001
+mutate_distribution_scale_step_size = 0.001
 param_search_step_sizes = [survival_rate_step_size, mutate_distribution_scale_step_size]
 
 def accuracy_rate(survival_rate, mutate_distribution_scale):
@@ -101,7 +101,6 @@ def optimize_parameters(iterations, max_steps):
 
     # We run the simple hill-climbing algorithm multiple times with random starting points.
     for iteration in range(iterations):
-        print(f"Training... {round(iteration / iterations * 100, 2)}% complete.")
         # Generate random starting position in the range specified. We round the random numbers to the nearest
         # multiple of step size to keep the algorithm from operating on different grids for each starting position.
         # I referenced Random — Generate Pseudo-Random Numbers (n.d.) to write the code generating the random numbers.
