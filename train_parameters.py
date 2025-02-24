@@ -1,3 +1,5 @@
+import sys
+
 import numpy as np
 from search import genetic_search
 from error import error
@@ -15,7 +17,7 @@ max_generations = 200
 termination_static_max_fitness_iterations = 5
 
 # Number of trials to perform to gauge accuracy.
-trials = 10
+trials = 100
 # Count results returned by the algorithm that has an associated error less than this value as a successful run.
 success_threshold = -0.2
 
@@ -88,6 +90,7 @@ def optimize_parameters(iterations, max_steps):
     step_size -- the step size for the simple hill-climbing portion of this algorithm.
     max_steps -- the maximum number of steps that the simple hill-climbing portion of this algorithm will take.
     """
+    print("Training started.")
 
     # Create dictionaries to store the local and global optimums.
     local_maximums = dict()
@@ -97,7 +100,8 @@ def optimize_parameters(iterations, max_steps):
     rng = np.random.default_rng()
 
     # We run the simple hill-climbing algorithm multiple times with random starting points.
-    for _ in range(iterations):
+    for iteration in range(iterations):
+        print(f"Training... {round(iteration / iterations * 100, 2)}% complete.")
         # Generate random starting position in the range specified. We round the random numbers to the nearest
         # multiple of step size to keep the algorithm from operating on different grids for each starting position.
         # I referenced Random — Generate Pseudo-Random Numbers (n.d.) to write the code generating the random numbers.
@@ -107,7 +111,8 @@ def optimize_parameters(iterations, max_steps):
             round_to_step_size(
                 rng.uniform(param_search_ranges[1][0], param_search_ranges[1][1]), param_search_step_sizes[1])]
 
-        for _ in range(max_steps):
+        for step in range(max_steps):
+            print(f"Training... {round((iteration / iterations + step / max_steps / iterations) * 100, 2)}% complete.")
             new_position = move(start_positions, param_search_step_sizes)
             # Round to step size to avoid floating-point numbers' precision loss problem.
             for dimension, value in enumerate(new_position):
@@ -126,6 +131,8 @@ def optimize_parameters(iterations, max_steps):
 
         # Store the local minimum found in this iteration.
         local_maximums.update({tuple(start_positions): accuracy_rate(start_positions[0], start_positions[1])})
+
+    print("Training complete!")
 
     current_largest_local_maximum = 0
     # Iterate through all the local minimums to find the global minimum.
