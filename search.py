@@ -3,11 +3,12 @@ from pandas import DataFrame, concat
 from chromosomes import Chromosome
 from error import error
 
-def genetic_search(population_size = 100,
-                   max_generations = 100,
-                   survival_rate = 0.3,
-                   mutate_distribution_scale = 0.001,
-                   termination_static_max_fitness_iterations = 10):
+
+def genetic_search(population_size=100,
+                   max_generations=200,
+                   survival_rate=0.3,
+                   mutate_distribution_scale=0.0015,
+                   termination_static_max_fitness_iterations=10):
     search_space = [[-3, 3], [-3, 3]]
     current_running_max_fitness = 0
     static_max_fitness_iterations = 0
@@ -19,7 +20,8 @@ def genetic_search(population_size = 100,
     for _ in range(population_size):
         # Create a new chromosome. The fitness function is defined as 2^-error because fitness needs to be maximized,
         # while error needs to be minimized.
-        chromosome = Chromosome(search_space, lambda a, b: 2**(-error(a, b)), rng, mutate_distribution_scale=mutate_distribution_scale)
+        chromosome = Chromosome(search_space, lambda a, b: 2 ** (-error(a, b)), rng,
+                                mutate_distribution_scale=mutate_distribution_scale)
         # Referenced Pandas.DataFrame — Pandas 1.4.4 Documentation (n.d.).
         new_row = DataFrame(columns=["chromosome", "fitness"], data=[[chromosome, chromosome.fitness()]])
         # Add the new row to the population. Referenced Pandas.Concat — Pandas 1.4.4 Documentation (n.d.).
@@ -79,3 +81,8 @@ def genetic_search(population_size = 100,
 
     # Return the best location found by the algorithm.
     return population["chromosome"].iloc[0].location
+
+
+optimum_location = genetic_search()
+print(f"Global optimum is at ({optimum_location[0]}, {optimum_location[1]}) with error of "
+      f"{error(optimum_location[0], optimum_location[1])}")
