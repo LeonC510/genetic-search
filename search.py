@@ -24,8 +24,13 @@ def genetic_search(population_size=100,
                                 mutate_distribution_scale=mutate_distribution_scale)
         # Referenced Pandas.DataFrame — Pandas 1.4.4 Documentation (n.d.).
         new_row = DataFrame(columns=["chromosome", "fitness"], data=[[chromosome, chromosome.fitness()]])
-        # Add the new row to the population. Referenced Pandas.Concat — Pandas 1.4.4 Documentation (n.d.).
-        population = concat([population, new_row])
+        # If this is the first time adding a row, we copy the row into the population instead of concatenation,
+        # as concat() may not work well with an empty DataFrame in the future.
+        if len(population) == 0:
+            population = new_row
+        else:
+            # Add the new row to the population. Referenced Pandas.Concat — Pandas 1.4.4 Documentation (n.d.).
+            population = concat([population, new_row])
     # Sort the population by fitness. Referenced Pandas.DataFrame.Sort_values — Pandas 2.2.3 Documentation (n.d.).
     population.sort_values("fitness", ascending=False, inplace=True)
 
