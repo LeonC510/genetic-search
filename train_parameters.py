@@ -1,8 +1,6 @@
-import sys
-
 import numpy as np
-from search import genetic_search
 from error import error
+from search import genetic_search
 
 # How many times to attempt to find the optimal parameter combination.
 param_search_iterations = 10
@@ -17,7 +15,7 @@ max_generations = 200
 termination_static_max_fitness_iterations = 5
 
 # Number of trials to perform to gauge accuracy.
-trials = 100
+trials = 500
 # Count results returned by the algorithm that has an associated error less than this value as a successful run.
 success_threshold = -0.2
 
